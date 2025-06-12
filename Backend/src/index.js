@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectMongoDB from "./Lib/Mongodb.js";
-
 const app = express();
 dotenv.config();
 app.use(
