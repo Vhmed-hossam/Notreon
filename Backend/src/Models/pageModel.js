@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 
-const pageschema = new mongoose.Schema({
+const pageSchema = new mongoose.Schema({
   content: { type: String, required: true, default: "" },
-  title: { type: String, required: true, default: "" },
+  title: { type: String, required: true, default: "New Page" },
   pageId: { type: String, required: true },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  createdBy: { type: String, required: true },
 });
 
-const Pages = mongoose.models.Pages || mongoose.model("Pages", pageschema);
+const Page = mongoose.models.Page || mongoose.model("Page", pageSchema);
 
-export default Pages;
+export default Page;
