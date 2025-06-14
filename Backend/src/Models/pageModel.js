@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const pageSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    required: true,
+    default: "text",
+  },
   content: { type: String, required: true, default: "" },
   title: { type: String, required: true, default: "New Page" },
   pageId: { type: String, required: true },
