@@ -7,7 +7,7 @@ import GenerateCode from "../Tasks/GenerateCode.js";
 import SendCodeEmail from "../Tasks/SendEmail.js";
 import { v4 as uuidv4 } from "uuid";
 import { SuccessMessages } from "../Messages/Sucs/Succesmsgs.js";
-
+import diffDates from "diff-dates";
 export async function Signup(req, res) {
   const { name, email, password, profilePic } = req.body;
   try {
@@ -73,6 +73,11 @@ export async function VerifyUser(req, res) {
     }
     if (code !== unknownuser.verificationCode) {
       return res.status(400).json({ error: ErrorMessages.invalidCode });
+    }
+    const diff = diffDates(Date.now(), unknownuser.createdAt, "seconds");
+    if (diff > 2) {
+      await UnknownUser.deleteOne({ identity });
+      return res.status(400).json({ error: ErrorMessages.permenantdel });
     }
     const user = new User({
       name: unknownuser.name,
