@@ -43,7 +43,6 @@ export async function Signup(req, res) {
       });
       profilePicture = image.url;
     }
-    await newUser.save();
     const code = GenerateCode();
     await SendCodeEmail(name, email, code, identity, "Thank you for joining us — we're excited to have you on board , we offer a smooth, clutter-free, and relaxing experience, helping you focus on what truly matters: your notes. please verify yourself by copying this code and the identity below : ");
     const newUser = new UnknownUser({
