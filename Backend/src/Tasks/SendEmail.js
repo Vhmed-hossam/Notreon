@@ -34,7 +34,8 @@ export default async function SendCodeEmail(name, email, code, identity, text) {
             </h3>
           </div>
           <p style="font-size: 14px; color: #1E1E1E;">Please do not share this code and identity with anyone.</p>
-          <p style="font-size: 14px; color: #1E1E1E;">we like to mention that if no action is taken within 2 days, the account will be deleted.</p>
+          <p style="font-size: 14px; color: #1E1E1E;">We’d like to kindly let you know that if no action is taken within the next 2 days, your account will be permanently deleted.If you’d like to keep your account active, please take action before then.
+</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
           <p style="text-align: center; font-size: 12px; color: #1212129a;">
             &copy; ${new Date().getFullYear()} Notreon. All rights reserved.
