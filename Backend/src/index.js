@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectMongoDB from "./Lib/Mongodb.js";
+import authroute from './Routes/authroute.js'
 const app = express();
 dotenv.config();
 app.use(
@@ -16,6 +17,9 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(cookieParser());
+
+app.use('/api/auth', authroute)
+
 const port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log("Server is running on port " + port);
