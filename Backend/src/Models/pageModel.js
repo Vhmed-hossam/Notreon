@@ -1,14 +1,11 @@
 import mongoose from "mongoose";
 
 const pageSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    required: true,
-    default: "text",
-  },
+  icon: { type: String, required: true, default: "" },
   content: { type: String, required: true, default: "" },
   title: { type: String, required: true, default: "New Page" },
   pageId: { type: String, required: true },
+  parentId: { type: mongoose.Schema.Types.ObjectId, ref: "Page", default: null }, // <-- this enables nesting
   createdAt: {
     type: Date,
     default: Date.now,
