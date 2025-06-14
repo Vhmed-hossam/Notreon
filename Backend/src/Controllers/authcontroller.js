@@ -74,7 +74,7 @@ export async function VerifyUser(req, res) {
     if (code !== unknownuser.verificationCode) {
       return res.status(400).json({ error: ErrorMessages.invalidCode });
     }
-    const diff = diffDates(Date.now(), unknownuser.createdAt, "seconds");
+    const diff = diffDates(Date.now(), unknownuser.createdAt, "days");
     if (diff > 2) {
       await UnknownUser.deleteOne({ identity });
       return res.status(400).json({ error: ErrorMessages.permenantdel });
