@@ -63,3 +63,29 @@ export async function Signup(req, res) {
     res.status(500).json({ error: ErrorMessages.ISerror });
   }
 }
+
+export async function VerifyUser(req, res) {
+  const { code, identity } = req.body;
+  try {
+    const unknownuser = await UnknownUser.findOne({ identity });
+    if (!unknownuser) {
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    if (code !== unknownuser.verificationCode) {
+      return res.status(400).json({ error: ErrorMessages.invalidCode });
+    }
+    const user = new User({
+      name: unknownuser.name,
+      email: unknownuser.email,
+      password: unknownuser.password,
+      profilePic: unknownuser.profilePic,
+      createdAt: unknownuser.createdAt,
+    });
+    await user.save();
+    await UnknownUser.deleteOne({ identity });
+    res.status(200).json({ message: SuccessMessages.userVerified, user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
