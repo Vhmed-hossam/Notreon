@@ -9,5 +9,5 @@ export const ErrorMessages = {
   invalidPassword: "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character",
   userAlreadyExistsandUnknown: "User already exists and not Verified",
   invalidCode: "Invalid code",
-  permenantdel: "User deleted permanently for not verifying in 2 days"
+  permenantdel: "account deleted permanently for not verifying in 2 days"
 };
