@@ -1,5 +1,7 @@
 import { Button } from "@/Components/shadcn/button";
-
+import Layout from "./Layout/Layout";
+import { NotreonRoutes } from "./Routes/notreon";
+import { RouterProvider } from "react-router";
 export default function App() {
   return (
     <div className="p-2">
@@ -8,8 +10,11 @@ export default function App() {
       <ul>
         <li>2. backend</li>
       </ul>
-      <Button variant="outline" onClick={() => alert("NO!")}>Notify when ready</Button>
+      <Button variant="outline" onClick={() => alert("NO!")}>
+        Notify when ready
+      </Button>
+      <hr/>
+      <RouterProvider router={NotreonRoutes} />
     </div>
   );
 }
-
