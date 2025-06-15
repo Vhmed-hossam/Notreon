@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-import { ErrorMessages } from "../Messages/Errs/Errormsgs";
-import User from "../Models/userModel";
+import { ErrorMessages } from "../Messages/Errs/Errormsgs.js";
+import User from "../Models/userModel.js";
 
 export default async function protection(req, res, next) {
   try {

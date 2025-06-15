@@ -8,6 +8,7 @@ import SendCodeEmail from "../Tasks/SendEmail.js";
 import { v4 as uuidv4 } from "uuid";
 import { SuccessMessages } from "../Messages/Sucs/Succesmsgs.js";
 import diffDates from "diff-dates";
+import { generateToken } from "../Lib/GenerateToken.js";
 export async function Signup(req, res) {
   const { name, email, password, profilePic } = req.body;
   try {
@@ -92,5 +93,63 @@ export async function VerifyUser(req, res) {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function Login(req, res) {
+  const { email, password } = req.body;
+  try {
+    if (!email.trim() || !password.trim()) {
+      return res.status(400).json({ error: ErrorMessages.invalidLogin });
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: ErrorMessages.incorrectEorP });
+    }
+    const unkUser = await UnknownUser.findOne({ email });
+    if (unkUser) {
+      return res.status(400).json({ error: ErrorMessages.userIsntVerified });
+    }
+    const PassCheck = await bcrypt.compare(password, user.password);
+    if (!PassCheck) {
+      return res.status(400).json({ error: ErrorMessages.incorrectEorP });
+    }
+    const token = generateToken(user._id, res);
+    await user.save();
+    res.status(200).json({ message: SuccessMessages.userLoggedIn, user, token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function Logout(req, res) {
+  const { userId } = req.body;
+  try {
+    if (!userId) {
+      return res.status(400).json({ error: ErrorMessages.requID });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.clearCookie("token");
+    res.status(200).json({ message: SuccessMessages.userLoggedOut, token: null });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function CheckAuth(req, res) {
+  try {
+    return res.status(200).json({
+      message: SuccessMessages.userAuthenticated,
+      user: req.user,
+    });
+  } catch (error) {
+    console.error("CheckAuth error:", error);
+    res.clearCookie("token");
+    return res.status(500).json({ error: ErrorMessages.ISerror });
   }
 }
