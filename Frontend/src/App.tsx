@@ -1,5 +1,4 @@
 import { Button } from "@/Components/shadcn/button";
-import Layout from "./Layout/Layout";
 import { NotreonRoutes } from "./Routes/notreon";
 import { RouterProvider } from "react-router";
 export default function App() {
