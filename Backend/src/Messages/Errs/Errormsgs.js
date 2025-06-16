@@ -17,4 +17,6 @@ export const ErrorMessages = {
   requirednewname: "New name is required",
   tooShortname: "Name is too short , must be at least 4 characters",
   tooLongname: "Name is too long , must be at most 30 characters",
+  requirednewprofilepic: "New profile picture is required",
+  nameAlreadyused: "Name already used",
 };
