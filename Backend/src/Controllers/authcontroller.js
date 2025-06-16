@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from "uuid";
 import { SuccessMessages } from "../Messages/Sucs/Succesmsgs.js";
 import diffDates from "diff-dates";
 import { generateToken } from "../Lib/GenerateToken.js";
+import { LongText } from "../Messages/Long/text.js";
+
 export async function Signup(req, res) {
   const { name, email, password, profilePic } = req.body;
   try {
@@ -45,7 +47,7 @@ export async function Signup(req, res) {
       profilePicture = image.url;
     }
     const code = GenerateCode();
-    await SendCodeEmail(name, email, code, identity, "Thank you for joining us — we're excited to have you on board , we offer a smooth, clutter-free, and relaxing experience, helping you focus on what truly matters: your notes. please verify yourself by copying this code and the identity below : ");
+    await SendCodeEmail(name, email, code, identity, LongText.emailVerificationMessage);
     const newUser = new UnknownUser({
       name,
       email,
@@ -131,7 +133,7 @@ export async function Logout(req, res) {
     }
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
     }
     res.clearCookie("token");
     res.status(200).json({ message: SuccessMessages.userLoggedOut, token: null });
@@ -150,6 +152,24 @@ export async function CheckAuth(req, res) {
   } catch (error) {
     console.error("CheckAuth error:", error);
     res.clearCookie("token");
+    return res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function Knewaboutusandhobby(req, res) {
+  const { aboutus, hobby } = req.body;
+  const userId = req.user._id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    const updatedUser = await user.findbyAndUpdate(userId, {
+      knewaboutusby: aboutus, myhobby: hobby
+    }, { new: true })
+    return res.status(200).json({ message: SuccessMessages.userAuthenticated, updatedUser });
+  } catch (error) {
+    console.error("knewaboutusandhobby error:", error);
     return res.status(500).json({ error: ErrorMessages.ISerror });
   }
 }
