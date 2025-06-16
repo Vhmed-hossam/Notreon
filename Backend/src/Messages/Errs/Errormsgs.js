@@ -13,5 +13,8 @@ export const ErrorMessages = {
   invalidLogin: "Invalid email or password",
   userIsntVerified: "User is not verified , please check your email",
   incorrectEorP: "Incorrect email or password",
-  requID: "Error Logging out - Required User ID",
+  requID: "Required User ID",
+  requirednewname: "New name is required",
+  tooShortname: "Name is too short , must be at least 4 characters",
+  tooLongname: "Name is too long , must be at most 30 characters",
 };

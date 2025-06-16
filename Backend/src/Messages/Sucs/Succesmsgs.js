@@ -4,4 +4,5 @@ export const SuccessMessages = {
     userLoggedIn: "User logged in successfully",
     userLoggedOut: "User logged out successfully",
     userAuthenticated: "User authenticated",
+    nameChanged: "Name changed successfully",
 };
