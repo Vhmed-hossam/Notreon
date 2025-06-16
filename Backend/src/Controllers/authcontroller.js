@@ -42,7 +42,7 @@ export async function Signup(req, res) {
     if (profilePic) {
       const image = await imageKit.upload({
         file: profilePic,
-        fileName: "picture",
+        fileName: `${name}_profilepic`,
       });
       profilePicture = image.url;
     }
