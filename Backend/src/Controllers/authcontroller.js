@@ -39,12 +39,14 @@ export async function Signup(req, res) {
     const salt = await bcrypt.genSalt(10);
     const decryptedpassword = await bcrypt.hash(password, salt);
     let profilePicture = "";
+    let profilePictureId = "";
     if (profilePic) {
       const image = await imageKit.upload({
         file: profilePic,
         fileName: `${name}_profilepic`,
       });
       profilePicture = image.url;
+      profilePictureId = image.fileId;
     }
     const code = GenerateCode();
     await SendCodeEmail(name, email, code, identity, LongText.emailVerificationMessage);
@@ -55,7 +57,8 @@ export async function Signup(req, res) {
       profilePic: profilePicture,
       createdAt: Date.now(),
       verificationCode: code,
-      identity
+      identity,
+      profilePicId: profilePictureId
     });
 
     await newUser.save();
@@ -88,6 +91,7 @@ export async function VerifyUser(req, res) {
       password: unknownuser.password,
       profilePic: unknownuser.profilePic,
       createdAt: unknownuser.createdAt,
+      profilePicId: unknownuser.profilePicId
     });
     await user.save();
     await UnknownUser.deleteOne({ identity });
