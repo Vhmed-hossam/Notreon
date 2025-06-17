@@ -10,6 +10,7 @@ import { SuccessMessages } from "../Messages/Sucs/Succesmsgs.js";
 import diffDates from "diff-dates";
 import { generateToken } from "../Lib/GenerateToken.js";
 import { LongText } from "../Messages/Long/text.js";
+import { validAboutUsOptions, validHobbyOptions } from "../Lib/Options.js";
 
 export async function Signup(req, res) {
   const { name, email, password, profilePic } = req.body;
@@ -187,6 +188,12 @@ export async function Knewaboutusandhobby(req, res) {
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    if (!validAboutUsOptions.includes(aboutus)) {
+      return res.status(400).json({ error: ErrorMessages.invalidAboutUs });
+    }
+    if (!validHobbyOptions.includes(hobby)) {
+      return res.status(400).json({ error: ErrorMessages.invalidHobby });
     }
     const updatedUser = await User.findByIdAndUpdate(
       userId,

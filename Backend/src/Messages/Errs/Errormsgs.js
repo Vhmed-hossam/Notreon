@@ -19,4 +19,6 @@ export const ErrorMessages = {
   tooLongname: "Name is too long , must be at most 30 characters",
   requirednewprofilepic: "New profile picture is required",
   nameAlreadyused: "Name already used",
+  invalidAboutUs: "Invalid about us option",
+  invalidHobby: "Invalid hobby option",
 };
