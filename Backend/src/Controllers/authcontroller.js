@@ -14,21 +14,29 @@ import { LongText } from "../Messages/Long/text.js";
 export async function Signup(req, res) {
   const { name, email, password, profilePic } = req.body;
   try {
-    const user = await User.findOne({ email })
-    const unknownuser = await UnknownUser.findOne({ email })
+    const user = await User.findOne({ email });
+    const unknownuser = await UnknownUser.findOne({ email });
     if (user) {
       return res.status(400).json({ error: ErrorMessages.userAlreadyExists });
     }
     if (unknownuser) {
-      return res.status(400).json({ error: ErrorMessages.userAlreadyExistsandUnknown });
+      return res
+        .status(400)
+        .json({ error: ErrorMessages.userAlreadyExistsandUnknown });
     }
     if (!email.trim() || !password.trim() || !name.trim()) {
       return res.status(400).json({ error: ErrorMessages.cannotcreateuser });
     }
-    if (!/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password.trim())) {
+    if (
+      !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+        password.trim()
+      )
+    ) {
       return res.status(400).json({ error: ErrorMessages.invalidPassword });
     }
-    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim())) {
+    if (
+      !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim())
+    ) {
       return res.status(400).json({ error: ErrorMessages.invalidEmail });
     }
     let identity = uuidv4();
@@ -49,7 +57,13 @@ export async function Signup(req, res) {
       profilePictureId = image.fileId;
     }
     const code = GenerateCode();
-    await SendCodeEmail(name, email, code, identity, LongText.emailVerificationMessage);
+    await SendCodeEmail(
+      name,
+      email,
+      code,
+      identity,
+      LongText.emailVerificationMessage
+    );
     const newUser = new UnknownUser({
       name,
       email,
@@ -58,12 +72,14 @@ export async function Signup(req, res) {
       createdAt: Date.now(),
       verificationCode: code,
       identity,
-      profilePicId: profilePictureId
+      profilePicId: profilePictureId,
     });
 
     await newUser.save();
 
-    res.status(201).json({ message: SuccessMessages.userCreated, user: newUser });
+    res
+      .status(201)
+      .json({ message: SuccessMessages.userCreated, user: newUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: ErrorMessages.ISerror });
@@ -91,7 +107,7 @@ export async function VerifyUser(req, res) {
       password: unknownuser.password,
       profilePic: unknownuser.profilePic,
       createdAt: unknownuser.createdAt,
-      profilePicId: unknownuser.profilePicId
+      profilePicId: unknownuser.profilePicId,
     });
     await user.save();
     await UnknownUser.deleteOne({ identity });
@@ -122,7 +138,9 @@ export async function Login(req, res) {
     }
     const token = generateToken(user._id, res);
     await user.save();
-    res.status(200).json({ message: SuccessMessages.userLoggedIn, user, token });
+    res
+      .status(200)
+      .json({ message: SuccessMessages.userLoggedIn, user, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: ErrorMessages.ISerror });
@@ -140,7 +158,9 @@ export async function Logout(req, res) {
       return res.status(404).json({ error: ErrorMessages.userNotFound });
     }
     res.clearCookie("token");
-    res.status(200).json({ message: SuccessMessages.userLoggedOut, token: null });
+    res
+      .status(200)
+      .json({ message: SuccessMessages.userLoggedOut, token: null });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: ErrorMessages.ISerror });
@@ -168,10 +188,17 @@ export async function Knewaboutusandhobby(req, res) {
     if (!user) {
       return res.status(404).json({ error: ErrorMessages.userNotFound });
     }
-    const updatedUser = await user.findbyAndUpdate(userId, {
-      knewaboutusby: aboutus, myhobby: hobby
-    }, { new: true })
-    return res.status(200).json({ message: SuccessMessages.userAuthenticated, updatedUser });
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        knewaboutusby: aboutus,
+        myhobby: hobby,
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: SuccessMessages.userAuthenticated, updatedUser });
   } catch (error) {
     console.error("knewaboutusandhobby error:", error);
     return res.status(500).json({ error: ErrorMessages.ISerror });
