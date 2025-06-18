@@ -22,7 +22,7 @@ router.post("/login", Login);
 
 router.post("/logout", Logout);
 
-router.post("/checkauth", protection, CheckAuth);
+router.get("/checkauth", protection, CheckAuth);
 
 router.post("/knewaboutusandhobby", protection, Knewaboutusandhobby);
 
