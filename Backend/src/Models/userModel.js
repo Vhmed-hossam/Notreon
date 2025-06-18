@@ -60,6 +60,18 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  verificationCode: {
+    type: String,
+    default: "",
+  },
+  verificationIdentity: {
+    type: String,
+    default: "",
+  },
+  codeDate: {
+    type: Date,
+    default: "",
+  },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
