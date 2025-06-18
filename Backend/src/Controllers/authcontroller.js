@@ -211,3 +211,123 @@ export async function Knewaboutusandhobby(req, res) {
     return res.status(500).json({ error: ErrorMessages.ISerror });
   }
 }
+
+export async function EmailToChangePassword(req, res) {
+  const { email } = req.body;
+  const userId = req.user._id;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    if (user.verificationCode) {
+      return res
+        .status(400)
+        .json({ error: ErrorMessages.changingpassalreadypending });
+    }
+    const code = GenerateCode();
+    const identity = uuidv4();
+    const salt = await bcrypt.genSalt(5);
+    const decryptedCode = await bcrypt.hash(String(code), salt);
+    await SendCodeEmail(
+      user.name,
+      user.email,
+      code,
+      identity,
+      LongText.changepasswordreq
+    );
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        verificationCode: decryptedCode,
+        verificationIdentity: identity,
+        codeDate: Date.now(),
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: SuccessMessages.changepasswordreqsent, updatedUser });
+  } catch (error) {
+    console.error("EmailToChangePassword error:", error);
+    return res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function ChangePassword(req, res) {
+  const { code, identity, newPassword } = req.body;
+  const userId = req.user._id;
+  try {
+    const user = await User.findOne({ verificationIdentity: identity });
+    if (!user) {
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    const isValidCode = await bcrypt.compare(
+      String(code),
+      user.verificationCode
+    );
+    if (!isValidCode) {
+      return res.status(400).json({ error: ErrorMessages.invalidCode });
+    }
+    const diff = diffDates(Date.now(), user.codeDate, "minutes");
+    if (diff > 15) {
+      const code = GenerateCode();
+      const salt = await bcrypt.genSalt(5);
+      const decryptedCode = await bcrypt.hash(String(code), salt);
+      const newIdentity = uuidv4();
+      await SendCodeEmail(
+        user.name,
+        user.email,
+        code,
+        newIdentity,
+        LongText.changepasswordreq
+      );
+      await User.findByIdAndUpdate(
+        userId,
+        {
+          verificationCode: decryptedCode,
+          verificationIdentity: newIdentity,
+          codeDate: Date.now(),
+        },
+        { new: true }
+      );
+      return res.status(400).json({ error: ErrorMessages.codeexpired });
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        verificationCode: "",
+        verificationIdentity: "",
+        codeDate: "",
+      },
+      { new: true }
+    );
+    if (!newPassword.trim()) {
+      return res.status(400).json({ error: ErrorMessages.cannotcreateuser });
+    }
+    if (
+      !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
+        newPassword.trim()
+      )
+    ) {
+      return res.status(400).json({ error: ErrorMessages.invalidPassword });
+    }
+    const isSamePassword = await bcrypt.compare(newPassword.trim(), user.password);
+    if (isSamePassword) {
+      return res.status(400).json({ error: ErrorMessages.passwordAlreadyUsed });
+    }
+    const salt = await bcrypt.genSalt(5);
+    const decryptedpassword = await bcrypt.hash(newPassword.trim(), salt);
+    await User.findByIdAndUpdate(
+      userId,
+      { password: decryptedpassword },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: SuccessMessages.paasswordchanged, updatedUser });
+  } catch (error) {
+    console.error("ChangePassword error:", error);
+    return res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
