@@ -20,4 +20,4 @@ const useAuthStore = create<useAuthStoreType>()((set) => ({
   },
 }));
 
-export default useAuthStore;
+export { useAuthStore };
