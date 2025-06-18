@@ -8,6 +8,7 @@ import {
   Knewaboutusandhobby,
   EmailToChangePassword,
   ChangePassword,
+  CancelChangingpass,
 } from "../Controllers/authcontroller.js";
 import protection from "../Middleware/protection.js";
 
@@ -28,5 +29,7 @@ router.post("/knewaboutusandhobby", protection, Knewaboutusandhobby);
 router.post("/changepassreq", protection, EmailToChangePassword);
 
 router.post("/changepassword", protection, ChangePassword);
+
+router.post("/canceloperation", protection, CancelChangingpass);
 
 export default router;

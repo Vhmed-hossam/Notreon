@@ -312,7 +312,10 @@ export async function ChangePassword(req, res) {
     ) {
       return res.status(400).json({ error: ErrorMessages.invalidPassword });
     }
-    const isSamePassword = await bcrypt.compare(newPassword.trim(), user.password);
+    const isSamePassword = await bcrypt.compare(
+      newPassword.trim(),
+      user.password
+    );
     if (isSamePassword) {
       return res.status(400).json({ error: ErrorMessages.passwordAlreadyUsed });
     }
@@ -328,6 +331,39 @@ export async function ChangePassword(req, res) {
       .json({ message: SuccessMessages.paasswordchanged, updatedUser });
   } catch (error) {
     console.error("ChangePassword error:", error);
+    return res.status(500).json({ error: ErrorMessages.ISerror });
+  }
+}
+
+export async function CancelChangingpass(req, res) {
+  const userId = req.user._id;
+  const { identity } = req.body;
+  try {
+    if (!identity) {
+      return res.status(400).json({ error: ErrorMessages.reqIdentity });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: ErrorMessages.userNotFound });
+    }
+    if (!user.verificationCode) {
+      return res
+        .status(400)
+        .json({ error: ErrorMessages.nochangingpasspending });
+    }
+    if (user.verificationIdentity !== identity) {
+      return res.status(400).json({ error: ErrorMessages.invalidIdentity });
+    }
+    await User.findByIdAndUpdate(
+      userId,
+      { verificationCode: "", verificationIdentity: "", codeDate: "" },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .json({ message: SuccessMessages.changepasswordreqcancelled });
+  } catch (error) {
+    console.error("CancelChangingpass error:", error);
     return res.status(500).json({ error: ErrorMessages.ISerror });
   }
 }

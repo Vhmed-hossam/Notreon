@@ -7,4 +7,5 @@ export const SuccessMessages = {
     nameChanged: "Name changed successfully",
     changepasswordreqsent: "Change password request sent successfully , please check your email",
     paasswordchanged: "Password changed successfully",
+    changepasswordreqcancelled: "Changing password cancelled successfully",
 };

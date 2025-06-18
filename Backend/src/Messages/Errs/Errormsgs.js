@@ -24,4 +24,6 @@ export const ErrorMessages = {
   codeexpired: "Code expired , we have sent a new email",
   changingpassalreadypending: "You already requested to change your password , please check your email",
   passwordAlreadyUsed: "Password already used",
+  reqIdentity: "Required Identity",
+  nochangingpasspending: "No changing password pending",
 };
