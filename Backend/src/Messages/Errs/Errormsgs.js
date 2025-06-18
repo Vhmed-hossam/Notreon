@@ -21,4 +21,7 @@ export const ErrorMessages = {
   nameAlreadyused: "Name already used",
   invalidAboutUs: "Invalid about us option",
   invalidHobby: "Invalid hobby option",
+  codeexpired: "Code expired , we have sent a new email",
+  changingpassalreadypending: "You already requested to change your password , please check your email",
+  passwordAlreadyUsed: "Password already used",
 };
