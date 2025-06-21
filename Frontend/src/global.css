@@ -76,6 +76,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --navbar-background: rgba(230, 221, 208, 1);
+  --gutter-color: rgba(241, 231, 219, 1);
 }
 
 .dark {
@@ -111,6 +112,7 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
   --navbar-background: rgba(24, 24, 24, 1);
+  --gutter-color: rgba(35, 35, 35, 1)
 }
 
 @layer base {
@@ -132,7 +134,7 @@
 }
 
 .gutter {
-  background-color: rgba(35, 35, 35, 1);
+  background-color: var(--gutter-color);
   cursor: col-resize;
 }
 
