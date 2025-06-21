@@ -8,7 +8,7 @@ export default function Layout() {
   const { User } = useAuthStore();
   return (
     <>
-      {!User ? (
+      {User ? (
         <Split
           className="flex flex-row h-screen"
           sizes={[25, 75]}
