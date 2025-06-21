@@ -1,6 +1,6 @@
 import Layout from "@/Layout/Layout";
 import Home from "@/Pages/Home/home";
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 
 export const NotreonRoutes = createBrowserRouter([
   {
@@ -10,6 +10,10 @@ export const NotreonRoutes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" />,
       },
     ],
   },
