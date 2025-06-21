@@ -15,10 +15,10 @@ export default function Navbar() {
           </Link>
           <div className="flex gap-2 flex-row self-stretch items-center">
             <Link to="/login">
-              <Button variant="outline">Login</Button>
+              <Button variant="link">Login</Button>
             </Link>
             <Link to="/register">
-              <Button>Register</Button>
+              <Button variant="outline">Register</Button>
             </Link>
           </div>
         </div>
