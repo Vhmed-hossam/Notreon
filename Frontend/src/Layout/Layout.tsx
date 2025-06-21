@@ -10,10 +10,11 @@ export default function Layout() {
     <>
       {User ? (
         <Split
-          className="flex flex-row h-screen"
-          sizes={[25, 75]}
-          minSize={250}
-          gutterSize={5}
+          className="flex flex-row h-screen w-full"
+          sizes={[30, 70]}
+          minSize={[300, 400]} 
+          gutterSize={6}
+          maxSize={[500, 1500]}
         >
           <NavbarAuth />
           <Outlet />
