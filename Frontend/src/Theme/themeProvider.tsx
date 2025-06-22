@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookie from "js-cookie";
+import { getCookie, setCookie } from "typescript-cookie";
 type Theme = "dark" | "light" | "system";
 
 type ThemeProviderProps = {
@@ -27,7 +27,7 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(
-    () => (Cookie.get(storageKey) as Theme) || defaultTheme
+    () => (getCookie(storageKey) as Theme) || defaultTheme
   );
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export function ThemeProvider({
   const value = {
     theme,
     setTheme: (theme: Theme) => {
-      Cookie.set(storageKey, theme);
+      setCookie(storageKey, theme);
       setTheme(theme);
     },
   };
