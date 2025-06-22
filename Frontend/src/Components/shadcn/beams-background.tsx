@@ -49,7 +49,7 @@ export function BeamsBackground({
   const MINIMUM_BEAMS = 20;
 
   const opacityMap = {
-    subtle: 0.7,
+    subtle: 0.9,
     medium: 0.85,
     strong: 1,
   };
