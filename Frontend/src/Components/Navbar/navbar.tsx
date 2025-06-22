@@ -3,9 +3,9 @@ import { ThemeSwitch } from "../shadcn/theme-switch-button";
 
 export default function Navbar() {
   return (
-    <div className="relative z-50">
+    <div className="fixed z-50">
       <div
-        className="p-3 rounded-lg absolute w-full px-7"
+        className="p-3 fixed top-0 left-0 right-0 rounded-lg w-full px-7"
         style={{
           backgroundColor: "rgba(19, 19, 19, 0.15)",
           backdropFilter: "blur(10px)",
