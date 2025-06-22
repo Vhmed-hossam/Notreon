@@ -12,7 +12,7 @@ export default function Layout() {
         <Split
           className="flex flex-row h-screen w-full"
           sizes={[30, 70]}
-          minSize={[300, 400]} 
+          minSize={[250, 550]}
           gutterSize={6}
           maxSize={[500, 1500]}
         >
