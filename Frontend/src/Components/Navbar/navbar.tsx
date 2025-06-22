@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Button } from "../shadcn/button";
 import { ThemeSwitch } from "../shadcn/theme-switch-button";
 
 export default function Navbar() {
@@ -19,10 +18,7 @@ export default function Navbar() {
               />
               <h2 className="text-2xl confortaa">Notreon</h2>
             </Link>
-            <div className="flex gap-2 flex-row self-stretch items-center">
-              <Link to="/register">
-                <Button variant="default">Get started</Button>
-              </Link>
+            <div className="flex gap-2 flex-row self-stretch items-center justify-end px-2">
               <ThemeSwitch />
             </div>
           </div>
