@@ -17,8 +17,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
-    "framer-motion": "^12.17.0",
-    "js-cookie": "^3.0.5",
+    "framer-motion": "^12.18.1",
     "lucide-react": "^0.514.0",
     "motion": "^12.18.1",
     "react": "^19.1.0",
@@ -31,6 +30,7 @@
     "split.js": "^1.6.5",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.8",
+    "typescript-cookie": "^1.0.6",
     "yup": "^1.6.1",
     "zustand": "^5.0.5"
   },
