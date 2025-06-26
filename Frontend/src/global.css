@@ -169,3 +169,21 @@ img {
   -webkit-user-select: none;
   -ms-user-select: none;
 }
+.gradient-text {
+  background: linear-gradient(270deg, #FFE93B, #25AADA, #F0C315);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-text 6s ease infinite;
+}
+@keyframes gradient-text {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

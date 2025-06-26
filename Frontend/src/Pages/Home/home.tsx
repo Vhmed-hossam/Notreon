@@ -4,10 +4,10 @@ import { BeamsBackground } from "@/Components/shadcn/beams-background";
 import { FlowButton } from "@/Components/shadcn/flow-button";
 import { InteractiveHoverButton } from "@/Components/shadcn/interactive-hover-button";
 import { Typewriter } from "@/Components/shadcn/typewriter";
+import { TextHoverEffect } from "@/Components/text-hover-effect/text-hover-effect";
 import { motion } from "framer-motion";
 import { Box, Paintbrush, Puzzle } from "lucide-react";
 import { Link } from "react-router-dom";
-
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -29,9 +29,9 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Notreon
+              <TextHoverEffect text="Notreon" />
             </motion.h1>
-            <motion.p
+            <motion.div
               className="whitespace-pre-wrap text-lg md:text-xl lg:text-2xl tracking-tighter"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -45,7 +45,7 @@ export default function Home() {
                 waitTime={1500}
                 deleteSpeed={30}
               />
-            </motion.p>
+            </motion.div>
           </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -77,8 +77,8 @@ export default function Home() {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.3 }}
           >
-            Notreon helps you organize what matters most. your
-            <span className="ms-1 p-2 text-2xl rounded-md bg-gradient-to-r from-[#25aada] to-[#ffe93b] bg-clip-text text-transparent">
+            <TextHoverEffect text="Notreon helps you organize what matters most. your" />
+            <span className="ms-1 p-2 text-2xl rounded-md gradient-text">
               Notes
             </span>
           </motion.p>
@@ -135,9 +135,12 @@ export default function Home() {
         speed={0.8}
       />
       <div className="flex flex-col p-2 justify-center items-center">
-        <div className="flex-1" style={{
-          backgroundColor: "rgba(19, 19, 19, 0.15)",
-        }}>
+        <div
+          className="flex-1"
+          style={{
+            backgroundColor: "rgba(19, 19, 19, 0.15)",
+          }}
+        >
           <div className="flex flex-col items-center gap-2">
             <div className="flex flex-row items-center gap-2">
               <img
